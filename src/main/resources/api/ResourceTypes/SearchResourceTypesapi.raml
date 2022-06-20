@@ -1,0 +1,18 @@
+#%RAML 1.0 ResourceType
+displayName: <<resourcePathName | !uppercamelcase>>
+description: All <<resourcePathName | !uppercamelcase>>
+get?:
+  displayName: GET <<resourcePathName | !uppercamelcase>>
+  description:  Retrives all <<resourcePathName | !uppercamelcase>>
+  is:
+    - SearchGetQueryParam
+    - searchGetRes : {error_code: 200}
+    
+post?:
+  displayName: POST <<resourcePathName | !uppercamelcase>> 
+  description: Adds <<resourcePathName | !uppercamelcase>>
+  is:
+    - SearchPostRes
+  body:
+    type: Searchpostrequest
+  

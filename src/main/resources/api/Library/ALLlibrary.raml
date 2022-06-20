@@ -1,0 +1,19 @@
+#%RAML 1.0 Library
+usage: Library of all
+
+types:
+  Searchpostrequest: !include ../Datatypes/SearchRequestdataType.raml
+  SearchpostResponse: !include ../Datatypes/SearchResponsedataType.raml
+  datatype: !include ../Datatypes/dataType.raml
+  
+traits:
+  SearchGetQueryParam: !include ../Traits/SearchGetQueryParam.raml
+  searchGetRes: !include ../Traits/searchGetResponsetrait.raml
+  SearchPostRes: !include ../Traits/SearchPostResTrait.raml
+
+resourceTypes:
+  SearchResource: !include ../ResourceTypes/SearchResourceTypesapi.raml
+
+securitySchemes:
+  BasicAuth: !include /SecuritySchemes/BasicAuthsecurityScheme.raml
+  

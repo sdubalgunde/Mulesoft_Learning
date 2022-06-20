@@ -1,0 +1,24 @@
+#%RAML 1.0
+title: Sravan_Lingam
+version: v1
+mediaType: 
+- application/json
+baseUri: http://localhost:8000/
+
+uses:
+  AllLib: Library/ALLlibrary.raml
+  
+securedBy:
+  - AllLib.BasicAuth
+
+
+/search:
+  type: AllLib.SearchResource
+  get:
+  post:
+    
+    
+ 
+            
+
+        
