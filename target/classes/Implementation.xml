@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns:file="http://www.mulesoft.org/schema/mule/file"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/file http://www.mulesoft.org/schema/mule/file/current/mule-file.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+	<file:config name="File_Config" doc:name="File Config" doc:id="5bb44e9f-832e-4d06-b64a-8f1075c31e39" >
+		<file:connection workingDir="C:\Users\sdubalgunde\Documents\Deloitte Shared Values" />
+	</file:config>
+	<flow name="GetSearch" doc:id="c2d0f0e4-4ecb-4a9e-bf18-6b602b31aab7" >
+		<set-variable value="#[attributes.queryParams.keyword]" doc:name="Set QueryParameter" doc:id="359339d6-b4a8-4507-9414-0c428183780e" variableName="keyword" />
+		<choice doc:name="Choice" doc:id="49bfea59-e012-4fbb-9932-674b25eb5f8c" >
+			<when expression='#[vars.keyword == "surya"]' doc:id="85835c23-9acd-49ab-9c49-6ba7ae5c42b3">
+				<logger level="INFO" doc:name="Logger" doc:id="6a177764-78a4-42d3-90c6-741b40cbc4d5" message='success'/>
+				<ee:transform doc:name="Transform Message" doc:id="27563d08-8bc1-4a5d-bb47-7b2fef38170c" >
+					<ee:message >
+						<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	payload: "keyword is  matching with surya",
+	port: p('http.port'),
+	Addport: '${http.port}'
+}]]></ee:set-payload>
+					</ee:message>
+				</ee:transform>
+			</when>
+			<when >
+				<file:read doc:name="Read" doc:id="be01c535-8a1e-4e7c-9da1-07da7cd6b121" />
+			</when>
+			<otherwise >
+				<logger level="INFO" doc:name="Logger" doc:id="1582b386-5950-47ff-a5e7-241afb630ff3" message='failure'/>
+				<ee:transform doc:name="Transform Message" doc:id="1ae6b750-356e-457a-b94c-8033477f63a7" >
+					<ee:message >
+						<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	payload: "keyword is not matching with surya"
+}
+]]></ee:set-payload>
+					</ee:message>
+				</ee:transform>
+			</otherwise>
+		</choice>
+	</flow>
+	<flow name="PostSearch" doc:id="f3230ca6-c1a2-4507-ac8c-48d4986fa812" >
+		<scheduler doc:name="Scheduler" doc:id="71bd1ba1-b835-4e57-bfbc-22921f6ea646" >
+			<scheduling-strategy >
+				<fixed-frequency frequency="15" startDelay="5" timeUnit="SECONDS"/>
+			</scheduling-strategy>
+		</scheduler>
+		<file:read doc:name="Read" doc:id="59d54a13-7597-4fc0-9efa-7e7b7c639b12" config-ref="File_Config" path="C:\Users\sdubalgunde\Downloads\Mule\Workspace\sravan_lingam_youtube_course\pom.xml"/>
+		<set-payload value="#[%dw 2.0&#10;output application/json&#10;---&#10;payload]" doc:name="Set Payload" doc:id="bb7961f3-bae4-45c7-a857-31e43f6ed9d0" />
+		<logger level="INFO" doc:name="Copy_of_Logger" doc:id="379e1f7e-f7bd-456d-b87d-cb5702656b14" message='#["Success of post Search" ++ payload]' />
+	</flow>
+</mule>

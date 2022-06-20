@@ -1,0 +1,10 @@
+{
+  "sampleData": {
+    "359339d6-b4a8-4507-9414-0c428183780e": {
+      "attributes": "sample_data/java.dwl"
+    },
+    "85835c23-9acd-49ab-9c49-6ba7ae5c42b3": {
+      "vars-Store_Queryparameter": "sample_data/defaultstringtype.json"
+    }
+  }
+}

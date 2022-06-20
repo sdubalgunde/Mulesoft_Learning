@@ -1,0 +1,10 @@
+#%RAML 1.0 DataType
+properties:
+  uname:
+    type: string
+    maxLength: 12
+  password:
+    type: string
+    maxLength: 14
+    minLength: 5
+example: !include ../Examples/SearchpostReqExamples.raml
